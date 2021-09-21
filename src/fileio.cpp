@@ -13,7 +13,7 @@
 using namespace std;
 
 //FUNCTION: Reads text data from a dummy text file (dataInput.txt) and writes it 
-//          to a new file of the name given in the parameter
+//          to a new file of the name given in the parameter.
 void writeToFile(string fileName){
     fileName = fileName + ".txt";
     ofstream dataFile(fileName);
