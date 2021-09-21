@@ -9,6 +9,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstring>
+#include <string>
 #include <cctype>
 using namespace std;
 
