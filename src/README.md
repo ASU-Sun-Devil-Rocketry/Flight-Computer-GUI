@@ -1,1 +1,1 @@
-General Purpose Flight Computer
+Flight-Computer-GUI C++ QT App
