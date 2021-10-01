@@ -7,6 +7,7 @@
 
 // time when start button was pressed
 QTime startTime;
+QTimer *timer;
 // true for start timer, false for stop timer
 bool timerButtonState = true;
 
@@ -17,11 +18,10 @@ MainWidget::MainWidget(QWidget *parent)
     ui->setupUi(this);
 
     // set up timer
-    QTimer *timer = new QTimer(this);
+    timer = new QTimer(this);
     // signal is the caller - when timout is called, it calls the slot - updateTimer
     // timout gets called every millisecond I think?
     connect(timer, SIGNAL(timeout()), this, SLOT(updateTimer()));
-    timer->start();
 }
 
 MainWidget::~MainWidget()
@@ -38,11 +38,14 @@ void MainWidget::on_startButton_clicked()
     {
         startTime = QTime::currentTime();
         ui->startButton->setText("Stop");
+        // toggle timer, only use if we need it
+        timer->start();
         timerButtonState = false;
     }
     else
     {
         ui->startButton->setText("Start");
+        timer->stop();
         timerButtonState = true;
     }
 }
