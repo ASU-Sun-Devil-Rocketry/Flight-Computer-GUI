@@ -11,6 +11,8 @@ QTimer *timer;
 // true for start timer, false for stop timer
 bool timerButtonState = true;
 
+InputMachine in;
+
 // Constructor
 MainWidget::MainWidget(QWidget *parent)
     : QWidget(parent), ui(new Ui::MainWidget)
@@ -67,4 +69,13 @@ void MainWidget::updateTimer()
     QFont font = ui->timerLabel->font();
     font.setPointSize(16);
     ui->timerLabel->setFont(font);
+
+    if (time.msec() == 0)
+    {
+        in.ChangeNumbers();
+        ui->pos_x->setText(QString::fromStdString(in.posx));
+        ui->rot_pitch->setText(QString::fromStdString(in.pitch));
+        qDebug() << QString::fromStdString(in.posx);
+        qDebug() << QString::fromStdString(in.pitch);
+    }
 }

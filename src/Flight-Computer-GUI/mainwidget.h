@@ -2,6 +2,7 @@
 #define MAINWIDGET_H
 
 #include <QWidget>
+#include "InputTest.cpp"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWidget; }
