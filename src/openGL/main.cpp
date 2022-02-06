@@ -26,6 +26,22 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 /************************************************************************/
 
 /************************MAIN CODE**************************************/
+// OpenGL Vertex Shader
+const char *vertexShaderSource = "#version 330 core\n"
+    "layout (location = 0) in vec3 aPos;\n"
+    "void main()\n"
+    "{\n"
+    "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+    "}\0";
+
+// OpenGL Fragment Shader
+const char *fragmentShaderSource = "#version 330 core\n"
+    "out vec4 FragColor;\n"
+    "void main()\n"
+    "{\n"
+    "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+    "}\0";
+
 int main(void){
 
     // Setup error callbacks to print glfw error 
@@ -63,12 +79,78 @@ int main(void){
     // Set window coordinates
     glViewport(0, 0, 640, 480);
 
+    // Open GL Vertex Shader Compilation
+    unsigned int vertexShader;
+    vertexShader = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+    glCompileShader(vertexShader);
+    int success;
+    char infoLog[512];
+    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+    if(!success){
+        glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+	cout << "Error: Vertex Shader Compilation Failed" << endl;
+	return -1;
+    }
+
+    // OpenGL fragment shader compilation
+    unsigned int fragmentShader;
+    fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+    glCompileShader(fragmentShader);
+    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+    if(!success){
+        glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
+	cout << "Error: Fragment Shader Compilation Failed" << endl;
+	return -1;
+    }
+
+    // Create the linked shader program
+    unsigned int shaderProgram;
+    shaderProgram = glCreateProgram();
+    glAttachShader(shaderProgram, vertexShader);
+    glAttachShader(shaderProgram, fragmentShader);
+    glLinkProgram(shaderProgram);
+    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+    if(!success){
+        glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+	cout << "Error: Shader linker failed" << endl;
+	return -1;
+    }
+
+    // Use shader and delete vertex and fragment shaders
+    glUseProgram(shaderProgram);
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader);
+    unsigned int VAO;
+    glGenVertexArrays(1, &VAO);
+    unsigned int VBO;
+    glGenBuffers(1, &VBO);
+    glBindVertexArray(VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
+    // Event Loop
     while(!glfwWindowShouldClose(window)){
-        // User Inputs
-	
-	// Render
+
+	// Background Color
 	glClearColor(0.85, 0.9, 0.96, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT);
+
+        // User Inputs
+	float vertices[] = {
+	-0.5, -0.5, 0.0,
+	0.5, -0.3, 0.0,
+	0.0, 0.5, -0.5 
+	};
+        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(0);  
+
+	glUseProgram(shaderProgram);
+	glBindVertexArray(VAO);
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+
+	// Render
 	
 	// Update
 	glfwSwapBuffers(window);
