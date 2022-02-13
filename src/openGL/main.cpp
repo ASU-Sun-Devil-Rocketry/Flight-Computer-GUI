@@ -1,6 +1,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <fstream>
+#include <string>
 
 using namespace std;
 
@@ -26,21 +28,10 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 /************************************************************************/
 
 /************************MAIN CODE**************************************/
-// OpenGL Vertex Shader
-const char *vertexShaderSource = "#version 330 core\n"
-    "layout (location = 0) in vec3 aPos;\n"
-    "void main()\n"
-    "{\n"
-    "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-    "}\0";
 
-// OpenGL Fragment Shader
-const char *fragmentShaderSource = "#version 330 core\n"
-    "out vec4 FragColor;\n"
-    "void main()\n"
-    "{\n"
-    "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-    "}\0";
+// Auto-generated shader code
+#include "shaders/shaders.h"
+
 
 int main(void){
 
@@ -80,6 +71,11 @@ int main(void){
     glViewport(0, 0, 640, 480);
 
     // Open GL Vertex Shader Compilation
+    // Get shader source code from external files
+    //ifstream vertexShaderFile, fragmentShaderFile;
+    //vertexShaderFile.open("vertexShader.glsl");
+    //string *vertexShaderSource, fragmentShaderSource;
+
     unsigned int vertexShader;
     vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
