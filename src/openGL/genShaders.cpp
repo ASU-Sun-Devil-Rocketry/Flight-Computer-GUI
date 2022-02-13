@@ -63,7 +63,6 @@ int main(int argc, char *argv[]){
 	}
     }
     vertexShaderData.append("\"\\0\";");
-
     fragmentShaderData.append("const char *fragmentShaderSource = ");
     while(!fragmentShaderFile.eof()){
         getline(fragmentShaderFile, linedata);
