@@ -5,4 +5,4 @@ genShaders: genShaders.cpp
 	g++ -Wall genShaders.cpp -o genShaders
 
 clean: 
-	rm main genShaders
+	rm main 
