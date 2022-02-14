@@ -32,7 +32,6 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 // Auto-generated shader code
 #include "shaders/shaders.h"
 
-
 int main(void){
 
     // Setup error callbacks to print glfw error 
@@ -70,12 +69,7 @@ int main(void){
     // Set window coordinates
     glViewport(0, 0, 640, 480);
 
-    // Open GL Vertex Shader Compilation
-    // Get shader source code from external files
-    //ifstream vertexShaderFile, fragmentShaderFile;
-    //vertexShaderFile.open("vertexShader.glsl");
-    //string *vertexShaderSource, fragmentShaderSource;
-
+    // Vertex Shader Compilation
     unsigned int vertexShader;
     vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
